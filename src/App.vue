@@ -1,47 +1,40 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import ScanPlate from '@/components/ScanPlate.vue'
+import KeyIn from '@/components/KeyIn.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <v-container class="px-0">
+    <v-toolbar color="surface">
+      <div class="mx-auto text-h6 font-weight-bold">車牌探索者</div>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
+      <template v-slot:extension>
+        <v-tabs v-model="tab" color="primary" grow>
+          <v-tab v-for="x in tabs" :key="x.value" :value="x.value"> {{ x.text }} </v-tab>
+        </v-tabs>
+      </template>
+    </v-toolbar>
 
-  <main>
-    <TheWelcome />
-  </main>
+    <v-tabs-window v-model="tab">
+      <v-tabs-window-item v-for="x in tabs" :key="x.value" :value="x.value">
+        <component :is="x.component"></component>
+      </v-tabs-window-item>
+    </v-tabs-window>
+  </v-container>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+<script>
+export default {
+  data() {
+    return {
+      tabs: [
+        { text: '掃描車牌', value: 1, component: ScanPlate },
+        { text: '手動輸入', value: 2, component: KeyIn }
+      ],
+      tab: 1
+    }
   }
 }
-</style>
+</script>
+
+<style scoped></style>
