@@ -12,17 +12,6 @@ import QueryResult from '@/components/QueryResult.vue'
   </div>
 
   <QueryResult v-bind="result"></QueryResult>
-
-  <v-btn
-    v-if="result.isFound"
-    block
-    class="w-100 py-10 text-h4"
-    color="error"
-    position="fixed"
-    style="bottom: 0"
-    tile
-    text="立即通報"
-  ></v-btn>
 </template>
 
 <script>
