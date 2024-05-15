@@ -1,6 +1,6 @@
 <script setup>
-import ScanPlate from '@/components/ScanPlate.vue'
-import KeyIn from '@/components/KeyIn.vue'
+import ScanTab from '@/components/ScanTab.vue'
+import InputTab from '@/components/InputTab.vue'
 </script>
 
 <template>
@@ -28,8 +28,8 @@ export default {
   data() {
     return {
       tabs: [
-        { text: '掃描車牌', value: 1, component: ScanPlate },
-        { text: '手動輸入', value: 2, component: KeyIn }
+        { text: '掃描車牌', value: 1, component: ScanTab },
+        { text: '手動輸入', value: 2, component: InputTab }
       ],
       tab: 1
     }
