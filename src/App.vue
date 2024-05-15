@@ -17,7 +17,7 @@ import KeyIn from '@/components/KeyIn.vue'
 
     <v-tabs-window v-model="tab">
       <v-tabs-window-item v-for="x in tabs" :key="x.value" :value="x.value">
-        <component :is="x.component"></component>
+        <component v-if="tab === x.value" :is="x.component"></component>
       </v-tabs-window-item>
     </v-tabs-window>
   </v-container>
