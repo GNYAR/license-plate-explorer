@@ -1,47 +1,43 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import HomePage from '@/components/HomePage.vue'
+import ReportPage from '@/components/ReportPage.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <v-container class="d-flex flex-column px-0 pb-0 main">
+    <ReportPage v-if="isReport"></ReportPage>
+    <HomePage v-else></HomePage>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <v-spacer></v-spacer>
+
+    <div>
+      <v-btn
+        :color="isReport ? 'primary' : 'error'"
+        :text="isReport ? '完成' : '立即通報'"
+        block
+        class="w-100 text-h4 action"
+        tile
+        @click="isReport = !isReport"
+      ></v-btn>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  </v-container>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      isReport: false
+    }
+  }
+}
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
+.main {
+  height: 100vh;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.action {
+  height: 80px;
 }
 </style>
