@@ -8,7 +8,9 @@ import QueryResult from '@/components/QueryResult.vue'
       <v-btn rounded text="上傳照片"></v-btn>
     </div>
 
-    <v-sheet width="100%" height="440px" color="primary"> 鏡頭畫面 </v-sheet>
+    <v-sheet width="100%" height="350px" color="primary">
+      <Camera></Camera>
+    </v-sheet>
   </div>
 
   <QueryResult v-bind="result"></QueryResult>
