@@ -1,4 +1,5 @@
 <script setup>
+import Camera from 'simple-vue-camera'
 import QueryResult from '@/components/QueryResult.vue'
 </script>
 
