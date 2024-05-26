@@ -4,15 +4,13 @@ import QueryResult from '@/components/QueryResult.vue'
 </script>
 
 <template>
-  <div class="position-relative">
-    <div class="position-absolute w-100 h-100 d-flex justify-center align-end pb-4">
-      <v-btn rounded text="上傳照片"></v-btn>
-    </div>
-
-    <v-sheet width="100%" height="350px" color="primary">
-      <Camera></Camera>
-    </v-sheet>
-  </div>
+  <v-sheet class="camera-container" width="100%" height="350px" color="primary">
+    <Camera>
+      <div class="w-100 h-100 d-flex justify-center align-end pb-4">
+        <v-btn rounded text="上傳照片"></v-btn>
+      </div>
+    </Camera>
+  </v-sheet>
 
   <QueryResult v-bind="result"></QueryResult>
 </template>
@@ -31,4 +29,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.camera-container >>> video {
+  object-fit: cover !important;
+}
+</style>
