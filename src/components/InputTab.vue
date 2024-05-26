@@ -22,6 +22,7 @@ import QueryResult from '@/components/QueryResult.vue'
   </div>
 
   <QueryResult v-if="result" v-bind="result"></QueryResult>
+  <div v-else class="text-center">請輸入車牌號碼</div>
 </template>
 
 <script>

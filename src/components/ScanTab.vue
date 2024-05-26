@@ -4,7 +4,7 @@ import QueryResult from '@/components/QueryResult.vue'
 </script>
 
 <template>
-  <v-sheet class="camera-container" width="100%" height="350px" color="primary">
+  <v-sheet class="camera-container mb-10" width="100%" height="350px" color="primary">
     <Camera ref="camera">
       <div class="w-100 h-100 d-flex justify-center align-end pb-4">
         <v-btn rounded text="上傳照片"></v-btn>
@@ -12,18 +12,15 @@ import QueryResult from '@/components/QueryResult.vue'
     </Camera>
   </v-sheet>
 
-  <QueryResult v-bind="result"></QueryResult>
+  <QueryResult v-if="result" v-bind="result"></QueryResult>
+  <div v-else class="text-center">請掃描車牌，或上傳照片</div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      result: {
-        license: '505-LRP',
-        isFound: true,
-        time: '113/05/05 01:36:03'
-      },
+      result: null,
       snapshot: null
     }
   },
