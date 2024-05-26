@@ -1,14 +1,14 @@
 <script setup>
 defineProps({
-  license: {
+  id: {
     type: String,
     required: true
   },
-  isFound: {
+  isStolen: {
     type: Boolean,
     required: true
   },
-  time: {
+  type: {
     type: String,
     required: true
   }
@@ -17,11 +17,14 @@ defineProps({
 
 <template>
   <div class="text-center">
-    <div class="text-h4 font-weight-bold my-4">{{ license }}</div>
-    <div :class="`text-h5 font-weight-bold text-${isFound ? 'error' : 'success'}`">
-      {{ isFound ? '車輛失竊' : '查無資料' }}
+    <div class="text-h4 font-weight-bold mt-4">{{ id }}</div>
+
+    <div>{{ type }}</div>
+
+    <div :class="`text-h5 font-weight-bold text-${isStolen ? 'error' : 'success mt-6'}`">
+      {{ isStolen ? '車輛失竊' : '查無資料' }}
     </div>
-    <div>{{ time }}</div>
+    <div class="text-grey">{{ new Date().toLocaleString() }}</div>
   </div>
 </template>
 

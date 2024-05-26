@@ -5,6 +5,7 @@ import QueryResult from '@/components/QueryResult.vue'
 <template>
   <div class="my-10">
     <v-text-field
+      v-model="input"
       :loading="loading"
       append-inner-icon="mdi-magnify"
       class="mx-auto"
@@ -14,37 +15,34 @@ import QueryResult from '@/components/QueryResult.vue'
       variant="outlined"
       hide-details
       width="300"
-      @click:append-inner="onClick"
-      @keydown.enter.prevent="onClick"
+      @click:append-inner="queryStolen(input)"
+      @keydown.enter.prevent="queryStolen(input)"
       autofocus
     ></v-text-field>
   </div>
 
-  <QueryResult v-if="loaded" v-bind="result"></QueryResult>
+  <QueryResult v-if="result" v-bind="result"></QueryResult>
+  <div v-else class="text-center">請輸入車牌號碼</div>
 </template>
 
 <script>
+import { queryStolenAPI } from '@/utils'
+
 export default {
   data() {
     return {
-      result: {
-        license: '505-LRP',
-        isFound: true,
-        time: '113/05/05 01:36:03'
-      },
+      result: null,
+      input: null,
       loaded: false,
       loading: false
     }
   },
 
   methods: {
-    onClick() {
+    async queryStolen(id) {
       this.loading = true
-
-      setTimeout(() => {
-        this.loading = false
-        this.loaded = true
-      }, 2000)
+      this.result = await queryStolenAPI(id)
+      this.loading = false
     }
   }
 }
