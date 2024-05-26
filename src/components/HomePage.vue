@@ -4,7 +4,7 @@ import ScanTab from '@/components/ScanTab.vue'
 </script>
 
 <template>
-  <v-toolbar color="surface">
+  <v-toolbar density="compact" color="surface">
     <div class="mx-auto text-h6 font-weight-bold">車牌探索者</div>
 
     <template v-if="!isReport" v-slot:extension>
