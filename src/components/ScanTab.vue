@@ -17,6 +17,15 @@ import QueryResult from '@/components/QueryResult.vue'
 </template>
 
 <script>
+import { queryStolenAPI } from '@/utils'
+
+const imgToTxt = async (blob) => {
+  const URL = 'http://140.121.17.140:8080/pyapi/car/image/res'
+  const body = new FormData()
+  body.append('file', blob)
+  return fetch(URL, { method: 'post', body }).then((x) => x.json())
+}
+
 export default {
   data() {
     return {
@@ -28,7 +37,8 @@ export default {
   mounted() {
     this.snapshot = setInterval(async () => {
       const blob = await this.$refs.camera?.snapshot()
-      console.log(URL.createObjectURL(blob))
+      const txt = await imgToTxt(blob)
+      this.result = await queryStolenAPI(txt)
     }, 5000)
   },
 
