@@ -2,15 +2,15 @@
 defineProps({
   id: {
     type: String,
-    required: true
+    required: false
   },
   isStolen: {
     type: Boolean,
-    required: true
+    required: false
   },
   type: {
     type: String,
-    required: true
+    required: false
   }
 })
 </script>
