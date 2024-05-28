@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style scoped>
-.camera-container >>> video {
+.camera-container :deep(video) {
   object-fit: cover !important;
 }
 </style>
