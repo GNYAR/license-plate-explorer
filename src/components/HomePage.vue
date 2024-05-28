@@ -7,7 +7,7 @@ import ScanTab from '@/components/ScanTab.vue'
   <v-toolbar density="compact" color="surface">
     <div class="mx-auto text-h6 font-weight-bold">車牌探索者</div>
 
-    <template v-if="!isReport" v-slot:extension>
+    <template v-slot:extension>
       <v-tabs v-model="tab" color="primary" grow>
         <v-tab v-for="x in tabs" :key="x.value" :value="x.value"> {{ x.text }} </v-tab>
       </v-tabs>
