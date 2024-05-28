@@ -12,7 +12,7 @@ import store from '@/store'
 
     <v-spacer></v-spacer>
 
-    <div v-if="store.btnShow">
+    <div v-if="store.result?.isStolen">
       <v-btn
         :color="isReport ? 'primary' : 'error'"
         :text="isReport ? '完成' : '立即通報'"
@@ -35,7 +35,7 @@ export default {
 
   methods: {
     changePage() {
-      if (this.isReport) store.btnShow = false
+      if (this.isReport) store.result = null
       this.isReport = !this.isReport
     }
   }
