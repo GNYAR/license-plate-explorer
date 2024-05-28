@@ -23,7 +23,7 @@ import store from '@/store'
     ></v-text-field>
   </div>
 
-  <QueryResult v-if="loaded" v-bind="store.result"></QueryResult>
+  <QueryResult v-if="loaded"></QueryResult>
   <div v-else class="text-center">請輸入車牌號碼</div>
 </template>
 

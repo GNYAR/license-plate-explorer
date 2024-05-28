@@ -14,7 +14,7 @@ import store from '@/store'
     </Camera>
   </v-sheet>
 
-  <QueryResult v-if="loaded" v-bind="store.result"></QueryResult>
+  <QueryResult v-if="loaded"></QueryResult>
   <div v-else class="text-center">請掃描車牌，或上傳照片</div>
 </template>
 

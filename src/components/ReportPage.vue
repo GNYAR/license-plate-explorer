@@ -6,7 +6,7 @@ import QueryResult from '@/components/QueryResult.vue'
   <div class="mx-4">
     <v-btn class="float-right mt-4" color="primary" text="查看照片" rounded></v-btn>
 
-    <QueryResult class="text-start mb-4" v-bind="result"></QueryResult>
+    <QueryResult class="text-start mb-4"></QueryResult>
 
     <v-text-field
       density="compact"
@@ -38,11 +38,6 @@ import QueryResult from '@/components/QueryResult.vue'
 export default {
   data() {
     return {
-      result: {
-        license: '505-LRP',
-        isFound: true,
-        time: '113/05/05 01:36:03'
-      },
       stations: [
         {
           name: '正濱派出所',
