@@ -1,5 +1,9 @@
 <script setup>
+import { GoogleMap, Marker } from 'vue3-google-map'
+
 import QueryResult from '@/components/QueryResult.vue'
+
+const MAP_API_KEY = 'AIzaSyCbt9e_c9PTsZlh8Mj3f8WbhPvb2vDJSAk'
 </script>
 
 <template>
@@ -14,7 +18,11 @@ import QueryResult from '@/components/QueryResult.vue'
       variant="underlined"
       hide-details
     ></v-text-field>
-    <v-sheet class="my-2" width="100%" height="250px" color="primary"> 地圖 </v-sheet>
+    <v-sheet class="my-2" width="100%" height="250px">
+      <GoogleMap :api-key="MAP_API_KEY" :center="center" class="w-100 fill-height" :zoom="15">
+        <Marker :options="{ position: center }" />
+      </GoogleMap>
+    </v-sheet>
   </div>
 
   <div class="px-4 mt-2">附近警察機關</div>
@@ -35,9 +43,14 @@ import QueryResult from '@/components/QueryResult.vue'
 </template>
 
 <script>
+import { pipe, prop } from 'lodash/fp'
+
 export default {
   data() {
     return {
+      // default: Taipei 101
+      center: { lat: 25.0346444, lng: 121.5622628 },
+      address: '110台北市信義區信義路五段7號',
       stations: [
         {
           name: '正濱派出所',
@@ -65,6 +78,14 @@ export default {
         }
       ]
     }
+  },
+
+  mounted() {
+    navigator.geolocation.getCurrentPosition((x) => {
+      const getPos = (key) => pipe([prop('coords'), prop(key)])(x)
+      this.center.lat = getPos('latitude')
+      this.center.lng = getPos('longitude')
+    })
   }
 }
 </script>
