@@ -3,6 +3,37 @@ import { GoogleMap, Marker } from 'vue3-google-map'
 
 import QueryResult from '@/components/QueryResult.vue'
 
+import { ref, watch } from 'vue'
+import { first, pipe, prop } from 'lodash/fp'
+
+const map = ref(null)
+const center = ref({ lat: 25.0346444, lng: 121.5622628 }) // default: Taipei 101
+const address = ref(null)
+
+const setCurrentPos = new Promise((resolve) => {
+  navigator.geolocation.getCurrentPosition(async (x) => {
+    const getPos = (key) => pipe([prop('coords'), prop(key)])(x)
+    center.value = { lat: getPos('latitude'), lng: getPos('longitude') }
+    resolve()
+  })
+})
+
+const updateAddress = async () => {
+  const geocoder = new map.value.api.Geocoder()
+  const getAddress = pipe([prop('results'), first, prop('formatted_address')])
+  address.value = await geocoder.geocode({ location: center.value }).then(getAddress)
+}
+
+watch(
+  () => map.value?.ready,
+  async (ready) => {
+    if (!ready) return ''
+
+    await setCurrentPos
+    await updateAddress()
+  }
+)
+
 const MAP_API_KEY = 'AIzaSyCbt9e_c9PTsZlh8Mj3f8WbhPvb2vDJSAk'
 </script>
 
@@ -13,13 +44,20 @@ const MAP_API_KEY = 'AIzaSyCbt9e_c9PTsZlh8Mj3f8WbhPvb2vDJSAk'
     <QueryResult class="text-start mb-4"></QueryResult>
 
     <v-text-field
+      v-model="address"
       density="compact"
       label="在哪裡發現?"
       variant="underlined"
       hide-details
     ></v-text-field>
     <v-sheet class="my-2" width="100%" height="250px">
-      <GoogleMap :api-key="MAP_API_KEY" :center="center" class="w-100 fill-height" :zoom="15">
+      <GoogleMap
+        :api-key="MAP_API_KEY"
+        :center="center"
+        class="w-100 fill-height"
+        ref="map"
+        :zoom="15"
+      >
         <Marker :options="{ position: center }" />
       </GoogleMap>
     </v-sheet>
@@ -43,14 +81,9 @@ const MAP_API_KEY = 'AIzaSyCbt9e_c9PTsZlh8Mj3f8WbhPvb2vDJSAk'
 </template>
 
 <script>
-import { pipe, prop } from 'lodash/fp'
-
 export default {
   data() {
     return {
-      // default: Taipei 101
-      center: { lat: 25.0346444, lng: 121.5622628 },
-      address: '110台北市信義區信義路五段7號',
       stations: [
         {
           name: '正濱派出所',
@@ -78,14 +111,6 @@ export default {
         }
       ]
     }
-  },
-
-  mounted() {
-    navigator.geolocation.getCurrentPosition((x) => {
-      const getPos = (key) => pipe([prop('coords'), prop(key)])(x)
-      this.center.lat = getPos('latitude')
-      this.center.lng = getPos('longitude')
-    })
   }
 }
 </script>
