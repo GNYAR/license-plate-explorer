@@ -1,5 +1,7 @@
 <script setup>
 import QueryResult from '@/components/QueryResult.vue'
+
+import store from '@/store'
 </script>
 
 <template>
@@ -21,7 +23,7 @@ import QueryResult from '@/components/QueryResult.vue'
     ></v-text-field>
   </div>
 
-  <QueryResult v-if="result" v-bind="result"></QueryResult>
+  <QueryResult v-if="loaded"></QueryResult>
   <div v-else class="text-center">請輸入車牌號碼</div>
 </template>
 
@@ -31,7 +33,6 @@ import { queryStolenAPI } from '@/utils'
 export default {
   data() {
     return {
-      result: null,
       input: null,
       loaded: false,
       loading: false
@@ -41,8 +42,9 @@ export default {
   methods: {
     async queryStolen(id) {
       this.loading = true
-      this.result = await queryStolenAPI(id)
+      store.result = await queryStolenAPI(id)
       this.loading = false
+      this.loaded = true
     }
   }
 }

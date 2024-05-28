@@ -1,20 +1,66 @@
 <script setup>
+import { GoogleMap, Marker } from 'vue3-google-map'
+
 import QueryResult from '@/components/QueryResult.vue'
+
+import { ref, watch } from 'vue'
+import { first, pipe, prop } from 'lodash/fp'
+
+const map = ref(null)
+const center = ref({ lat: 25.0346444, lng: 121.5622628 }) // default: Taipei 101
+const address = ref(null)
+
+const setCurrentPos = new Promise((resolve) => {
+  navigator.geolocation.getCurrentPosition(async (x) => {
+    const getPos = (key) => pipe([prop('coords'), prop(key)])(x)
+    center.value = { lat: getPos('latitude'), lng: getPos('longitude') }
+    resolve()
+  })
+})
+
+const updateAddress = async () => {
+  const geocoder = new map.value.api.Geocoder()
+  const getAddress = pipe([prop('results'), first, prop('formatted_address')])
+  address.value = await geocoder.geocode({ location: center.value }).then(getAddress)
+}
+
+watch(
+  () => map.value?.ready,
+  async (ready) => {
+    if (!ready) return ''
+
+    await setCurrentPos
+    await updateAddress()
+  }
+)
+
+const MAP_API_KEY = 'AIzaSyCbt9e_c9PTsZlh8Mj3f8WbhPvb2vDJSAk'
 </script>
 
 <template>
   <div class="mx-4">
     <v-btn class="float-right mt-4" color="primary" text="查看照片" rounded></v-btn>
 
-    <QueryResult class="text-start mb-4" v-bind="result"></QueryResult>
+    <QueryResult class="text-start mb-4"></QueryResult>
 
     <v-text-field
+      v-model="address"
       density="compact"
       label="在哪裡發現?"
       variant="underlined"
       hide-details
     ></v-text-field>
-    <v-sheet class="my-2" width="100%" height="250px" color="primary"> 地圖 </v-sheet>
+    <v-sheet class="my-2" width="100%" height="250px">
+      <GoogleMap
+        :api-key="MAP_API_KEY"
+        :center="center"
+        class="w-100 fill-height"
+        ref="map"
+        :zoom="15"
+      >
+        <Marker :options="{ position: center }" />
+      </GoogleMap>
+    </v-sheet>
   </div>
 
   <div class="px-4 mt-2">附近警察機關</div>
@@ -38,11 +84,6 @@ import QueryResult from '@/components/QueryResult.vue'
 export default {
   data() {
     return {
-      result: {
-        license: '505-LRP',
-        isFound: true,
-        time: '113/05/05 01:36:03'
-      },
       stations: [
         {
           name: '正濱派出所',

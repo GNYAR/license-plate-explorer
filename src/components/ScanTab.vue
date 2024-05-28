@@ -1,6 +1,8 @@
 <script setup>
 import Camera from 'simple-vue-camera'
 import QueryResult from '@/components/QueryResult.vue'
+
+import store from '@/store'
 </script>
 
 <template>
@@ -12,7 +14,7 @@ import QueryResult from '@/components/QueryResult.vue'
     </Camera>
   </v-sheet>
 
-  <QueryResult v-if="result" v-bind="result"></QueryResult>
+  <QueryResult v-if="loaded"></QueryResult>
   <div v-else class="text-center">請掃描車牌，或上傳照片</div>
 </template>
 
@@ -31,7 +33,7 @@ const imgToTxt = (blob) => {
 export default {
   data() {
     return {
-      result: null,
+      loaded: false,
       snapshot: null
     }
   },
@@ -41,7 +43,8 @@ export default {
       const blob = await this.$refs.camera?.snapshot()
       const txt = await imgToTxt(blob)
       if (txt) {
-        this.result = await queryStolenAPI(txt)
+        store.result = await queryStolenAPI(txt)
+        this.loaded = true
       }
     }, 5000)
   },
