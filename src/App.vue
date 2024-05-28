@@ -1,6 +1,8 @@
 <script setup>
 import HomePage from '@/components/HomePage.vue'
 import ReportPage from '@/components/ReportPage.vue'
+
+import store from '@/store'
 </script>
 
 <template>
@@ -10,14 +12,14 @@ import ReportPage from '@/components/ReportPage.vue'
 
     <v-spacer></v-spacer>
 
-    <div>
+    <div v-if="store.btnShow">
       <v-btn
         :color="isReport ? 'primary' : 'error'"
         :text="isReport ? '完成' : '立即通報'"
         block
         class="w-100 text-h4 action"
         tile
-        @click="isReport = !isReport"
+        @click="changePage"
       ></v-btn>
     </div>
   </v-container>
@@ -28,6 +30,13 @@ export default {
   data() {
     return {
       isReport: false
+    }
+  },
+
+  methods: {
+    changePage() {
+      if (this.isReport) store.btnShow = false
+      this.isReport = !this.isReport
     }
   }
 }

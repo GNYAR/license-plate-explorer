@@ -1,5 +1,7 @@
 <script setup>
 import QueryResult from '@/components/QueryResult.vue'
+
+import store from '@/store'
 </script>
 
 <template>
@@ -41,7 +43,9 @@ export default {
   methods: {
     async queryStolen(id) {
       this.loading = true
-      this.result = await queryStolenAPI(id)
+      const res = await queryStolenAPI(id)
+      this.result = res
+      store.btnShow = res.isStolen
       this.loading = false
     }
   }
