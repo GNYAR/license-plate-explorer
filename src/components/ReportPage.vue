@@ -4,7 +4,7 @@ import { GoogleMap, Marker } from 'vue3-google-map'
 import QueryResult from '@/components/QueryResult.vue'
 
 import { ref, watch } from 'vue'
-import { first, map, pick, pipe, prop } from 'lodash/fp'
+import { assign, first, map, path, pick, pipe, prop, sortBy, zipWith } from 'lodash/fp'
 
 const GOOGLE_API_KEY = 'AIzaSyBdtkoEPn9hfAGVrCMcj1mogkhbBDXcMuY'
 
@@ -29,10 +29,27 @@ const searchPolice = async (latlng, radius) => {
       center: latlng,
       radius
     },
-    includedPrimaryTypes: ['police']
+    includedPrimaryTypes: ['police'],
+    maxResultCount: 10
   }
   const { places } = await Place.searchNearby(params)
   polices.value = map(pick([...params.fields, 'id']))(places)
+
+  const Distance = new mapRef.value.api.DistanceMatrixService()
+  Distance.getDistanceMatrix(
+    {
+      origins: [latlng],
+      destinations: map(prop('location'), places),
+      travelMode: 'DRIVING'
+    },
+    (res, status) => {
+      if (status !== 'OK') return
+
+      const distances = pipe([prop('rows'), first, prop('elements'), map(pick('distance'))])(res)
+      const policesWithDistance = zipWith(assign, polices.value, distances)
+      polices.value = sortBy(path(['distance', 'value']), policesWithDistance)
+    }
+  )
 }
 
 const updateAddress = async () => {
@@ -86,7 +103,7 @@ watch(
         <div class="d-flex">
           <v-icon class="my-auto mr-2" color="warning" size="small">mdi-police-badge</v-icon>
           <div class="font-weight-bold">{{ x.displayName }}</div>
-          <!-- <div class="ml-auto text-grey">{{ x.dist }} m</div> -->
+          <div class="ml-auto text-grey text-caption">{{ x.distance?.text }}</div>
         </div>
       </v-list-item-title>
       地址：<a :href="getDirectionURI(x.formattedAddress)">{{ x.formattedAddress }}</a>
