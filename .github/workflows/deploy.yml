@@ -28,6 +28,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Build
+        env:
+          VITE_BASE: /license-plate-explorer/
         run: |
           npm ci
           npm run build
