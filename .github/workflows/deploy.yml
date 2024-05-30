@@ -30,6 +30,7 @@ jobs:
       - name: Build
         env:
           VITE_BASE: /license-plate-explorer/
+          VITE_GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: |
           npm ci
           npm run build

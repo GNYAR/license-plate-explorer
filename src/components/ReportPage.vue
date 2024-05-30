@@ -6,7 +6,7 @@ import QueryResult from '@/components/QueryResult.vue'
 import { ref, watch } from 'vue'
 import { assign, first, map, path, pick, pipe, prop, sortBy, zipWith } from 'lodash/fp'
 
-const GOOGLE_API_KEY = 'AIzaSyBdtkoEPn9hfAGVrCMcj1mogkhbBDXcMuY'
+const GOOGLE_API_KEY = import.meta.env?.VITE_GOOGLE_API_KEY
 
 const mapRef = ref(null)
 const center = ref({ lat: 25.0346444, lng: 121.5622628 }) // default: Taipei 101
