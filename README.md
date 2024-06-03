@@ -45,7 +45,7 @@ Code: `/src/utils.js` function `imgToTxt`
 
 Imiate [API request](https://eze8.npa.gov.tw/NpaE8ServerRWD/CL_Query.jsp) of National Police Agency (Republic of China, Taiwan) to query if the vehicle is stolen. And transform the result to a specific format.
 
-```json
+```js
 // format 1: no data
 {
   "id": "車牌",
