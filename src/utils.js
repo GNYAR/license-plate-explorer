@@ -1,5 +1,14 @@
 import { entries, filter, first, isEmpty, join, map, pipe, prop, propEq } from 'lodash/fp'
 
+export async function imgToTxt(blob) {
+  const URL = 'http://140.121.17.140:8080/pyapi/car/image/res'
+  const body = new FormData()
+  body.append('file', blob)
+  return fetch(URL, { method: 'post', body })
+    .then((x) => x.json())
+    .catch(() => null)
+}
+
 export async function queryStolenAPI(id) {
   const params = {
     // CarType: A(汽車)、B(重機車)、C(輕機車)、G(動力機械車)

@@ -19,16 +19,7 @@ import store from '@/store'
 </template>
 
 <script>
-import { queryStolenAPI } from '@/utils'
-
-const imgToTxt = (blob) => {
-  const URL = 'http://140.121.17.140:8080/pyapi/car/image/res'
-  const body = new FormData()
-  body.append('file', blob)
-  return fetch(URL, { method: 'post', body })
-    .then((x) => x.json())
-    .catch(() => null)
-}
+import { imgToTxt, queryStolenAPI } from '@/utils'
 
 export default {
   data() {
