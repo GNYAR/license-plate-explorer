@@ -4,7 +4,8 @@ Recognize the license plate and check whether it's stolen. You can get the polic
 
 This project is deploy on github pages https://gnyar.github.io/license-plate-explorer/.
 
-> Because of the security issue (mixed content) the recognition feature is not working, but it can run on local environment.
+> [!IMPORTANT]
+> Due to the backend service changed, the website features are unavailable.
 
 ## Features
 
